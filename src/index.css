@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Noto Sans Gujarati";
+
+  src: url("./assets/fonts/NotoSansGujarati-Regular.ttf") format("truetype");
+
+  font-weight: 400;
+
+  font-style: normal;
+
+  font-display: swap;
+}
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #cbd5e1;
+
+  --primary: #0f766e;
+  --primary-strong: #115e59;
+
+  --secondary: #99f6e4;
+
+  --danger: #dc2626;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-family: "Noto Sans Gujarati", system-ui, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+.safe-bottom {
+  padding-bottom: 110px;
+}

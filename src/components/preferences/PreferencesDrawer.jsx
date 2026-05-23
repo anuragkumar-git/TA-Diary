@@ -1,0 +1,207 @@
+import { useEffect, useState } from "react";
+
+export default function PreferencesDrawer({
+  open,
+  onClose,
+  preferences,
+  onSave,
+}) {
+  const [form, setForm] =
+    useState(preferences);
+
+  useEffect(() => {
+    setForm(preferences);
+  }, [preferences]);
+
+  if (!open) return null;
+
+  function updateField(
+    section,
+    field,
+    value
+  ) {
+    setForm((prev) => ({
+      ...prev,
+
+      [section]: {
+        ...prev[section],
+        [field]: value,
+      },
+    }));
+  }
+
+  function handleSave() {
+    onSave(form);
+
+    onClose();
+  }
+
+  return (
+    <>
+      <div
+        onClick={onClose}
+        className="
+          fixed inset-0 z-40
+          bg-black/40
+        "
+      />
+
+      <aside
+        className="
+          fixed left-0 top-0 z-50
+          h-full w-[90%] max-w-sm
+          overflow-y-auto
+          bg-white p-5 shadow-xl
+        "
+      >
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-xl font-bold">
+            use older Preferences
+          </h2>
+
+          <button
+            onClick={onClose}
+            className="
+              
+               text-red-600
+            "
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          <section>
+            <h3 className="mb-3 font-semibold">
+              User Details
+            </h3>
+
+            <div className="space-y-3">
+              <input
+                value={form.user.name}
+                onChange={(e) =>
+                  updateField(
+                    "user",
+                    "name",
+                    e.target.value
+                  )
+                }
+                placeholder="નામ"
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+
+              <input
+                value={form.user.role}
+                onChange={(e) =>
+                  updateField(
+                    "user",
+                    "role",
+                    e.target.value
+                  )
+                }
+                placeholder="હોદ્દો"
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+
+              <input
+                value={form.user.badgeNo}
+                onChange={(e) =>
+                  updateField(
+                    "user",
+                    "badgeNo",
+                    e.target.value
+                  )
+                }
+                placeholder="બ. નં."
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+            </div>
+          </section>
+
+          <section>
+            <h3 className="mb-3 font-semibold">
+              Travel Defaults
+            </h3>
+
+            <div className="space-y-3">
+              <textarea
+                value={
+                  form.travelDefaults.reason
+                }
+                onChange={(e) =>
+                  updateField(
+                    "travelDefaults",
+                    "reason",
+                    e.target.value
+                  )
+                }
+                placeholder="મુસાફરીનું કારણ"
+                rows={4}
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+
+              <input
+                value={
+                  form.travelDefaults.mode
+                }
+                onChange={(e) =>
+                  updateField(
+                    "travelDefaults",
+                    "mode",
+                    e.target.value
+                  )
+                }
+                placeholder="વાહન"
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+
+              <input
+                value={
+                  form.travelDefaults.distance
+                }
+                onChange={(e) =>
+                  updateField(
+                    "travelDefaults",
+                    "distance",
+                    e.target.value
+                  )
+                }
+                placeholder="કેટલા માઈલ"
+                className="
+                  w-full rounded-xl border
+                  border-slate-300 p-3
+                "
+              />
+            </div>
+          </section>
+
+          <button
+            onClick={handleSave}
+            className="
+              w-full rounded-xl
+              bg-teal-700 px-4 py-4
+              font-semibold text-white
+            "
+          >
+            Save Preferences
+          </button>
+        </div>
+      </aside>
+    </>
+  );
+}
