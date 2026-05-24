@@ -1,7 +1,3 @@
-import { useState } from "react";
-
- 
-
 import PreferencesDrawer from "../components/preferences/PreferencesDrawer";
 
 import { useDiaries } from "../hooks/useDiaries";
@@ -9,24 +5,20 @@ import { usePreferences } from "../hooks/usePreferences";
 
 import { createDiary } from "../lib/createDiary";
 import DiaryCard from "../components/diary/DairyCard";
+import ExportModal from "../components/diary/ExportModal";
 
-export default function HomePage({
-  onOpenDiary,
-}) {
-  const [drawerOpen, setDrawerOpen] =
-    useState(false);
+import { exportDiaryAsJson } from "../lib/exportDiary";
+import { useState } from "react";
 
-  const {
-    diaries,
-    addDiary,
-    deleteDiary,
-  } = useDiaries();
+export default function HomePage({ onOpenDiary }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const {
-    preferences,
-    updatePreferences,
-  } = usePreferences();
+  const { diaries, addDiary, deleteDiary } = useDiaries();
 
+  const { preferences, updatePreferences } = usePreferences();
+  const [exportOpen, setExportOpen] = useState(false);
+
+  const [exportJson, setExportJson] = useState("");
   async function handleCreateDiary() {
     const diary = createDiary();
 
@@ -34,27 +26,28 @@ export default function HomePage({
   }
 
   async function handleDelete(id) {
-    const confirmed = window.confirm(
-      "Delete this diary?"
-    );
+    const confirmed = window.confirm("Delete this diary?");
 
     if (!confirmed) return;
 
     await deleteDiary(id);
   }
 
+  function handleExport(diary) {
+    const json = exportDiaryAsJson(diary);
+
+    setExportJson(json);
+
+    setExportOpen(true);
+  }
   return (
     <>
       <main className="mx-auto max-w-md p-4">
         <header className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">
-            My Diaries
-          </h1>
+          <h1 className="text-2xl font-bold">My Diaries</h1>
 
           <button
-            onClick={() =>
-              setDrawerOpen(true)
-            }
+            onClick={() => setDrawerOpen(true)}
             className="
               rounded-xl border
               border-slate-300 bg-white
@@ -96,16 +89,27 @@ export default function HomePage({
               </div>
             ) : (
               diaries.map((diary) => (
-                <div
-                  key={diary.id}
-                  onClick={() =>
-                    onOpenDiary(diary)
-                  }
-                >
-                  <DiaryCard
-                    diary={diary}
-                    onDelete={handleDelete}
-                  />
+                <div key={diary.id} onClick={() => onOpenDiary(diary)}>
+                  <div key={diary.id} className="space-y-2">
+                    <div onClick={() => onOpenDiary(diary)}>
+                      <DiaryCard diary={diary} onDelete={handleDelete} />
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleExport(diary);
+                      }}
+                      className="
+      w-full rounded-xl
+      bg-emerald-100 px-4 py-3
+      text-sm font-medium
+      text-teal-800
+    "
+                    >
+                      Export
+                    </button>
+                  </div>
                 </div>
               ))
             )}
@@ -115,11 +119,14 @@ export default function HomePage({
 
       <PreferencesDrawer
         open={drawerOpen}
-        onClose={() =>
-          setDrawerOpen(false)
-        }
+        onClose={() => setDrawerOpen(false)}
         preferences={preferences}
         onSave={updatePreferences}
+      />
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        json={exportJson}
       />
     </>
   );

@@ -53,7 +53,7 @@ export default function LeavePage({ diary }) {
         </View>
 
         {leaveEntries.map((entry, index) => (
-          <View style={styles.tableRow} key={entry.id || index}>
+          <View style={styles.tableRow} key={entry?.id}>
             <View style={[styles.tableCol, styles.p2Col1]}>
               <Text>{toGujaratiDigits(index + 1)}</Text>
             </View>

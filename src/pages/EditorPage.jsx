@@ -8,8 +8,8 @@ import { db } from "../db/db";
 import { GUJARATI_MONTHS } from "../lib/constants";
 import { PDFViewer, pdf } from "@react-pdf/renderer";
 import PdfDocument from "../pdf/PdfDocument";
-
- 
+import { normalizeImportedDiary } from "../lib/importDiary";
+import ImportModal from "../components/diary/ImportModal";
 
 export default function EditorPage({ diary, onBack }) {
   const [form, setForm] = useState(diary);
@@ -17,6 +17,8 @@ export default function EditorPage({ diary, onBack }) {
   const [saving, setSaving] = useState(false);
 
   const [previewMode, setPreviewMode] = useState(false);
+
+  const [importOpen, setImportOpen] = useState(false);
 
   const printRef = useRef(null);
 
@@ -101,6 +103,21 @@ export default function EditorPage({ diary, onBack }) {
     }
   }
 
+  async function handleImport(rawData) {
+    try {
+      const normalized = normalizeImportedDiary(rawData);
+
+      const insertedId = await db.diaries.add(normalized);
+
+      const savedDiary = await db.diaries.get(insertedId);
+
+      setForm(savedDiary);
+
+      alert("Diary imported successfully.");
+    } catch (error) {
+      alert(error.message || "Import failed.");
+    }
+  }
   if (previewMode) {
     return (
       <>
@@ -151,195 +168,199 @@ export default function EditorPage({ diary, onBack }) {
   }
 
   return (
-    <main className="safe-bottom mx-auto max-w-md p-4">
-      <header className="mb-6 flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="
+    <>
+      <main className="safe-bottom mx-auto max-w-md p-4">
+        <header className="mb-6 flex items-center justify-between">
+          <button
+            onClick={onBack}
+            className="
             rounded-xl border
             border-slate-300 bg-white
             px-4 py-2
           "
-        >
-          Back
-        </button>
+          >
+            Back
+          </button>
 
-        <h1 className="text-xl font-bold">Editor</h1>
+          <h1 className="text-xl font-bold">Editor</h1>
 
-        <button
-          className="
-            rounded-xl border
-            border-slate-300 bg-white
-            px-4 py-2
-          "
-        >
-          Import
-        </button>
-      </header>
+          <button
+            onClick={() => setImportOpen(true)}
+            className="rounded-xl border border-slate- bg-white px-4 py-2"
+          >
+            Import
+          </button>
+        </header>
 
-      <div className="space-y-6">
-        <section
-          className="
+        <div className="space-y-6">
+          <section
+            className="
             rounded-2xl border
             border-slate-200 bg-white
             p-4 shadow-sm
           "
-        >
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="mb-2 block text-sm font-medium">Month</label>
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="mb-2 block text-sm font-medium">Month</label>
 
-              <select
-                value={form.month}
-                onChange={(e) => updateField("month", Number(e.target.value))}
-                className="
+                <select
+                  value={form.month}
+                  onChange={(e) => updateField("month", Number(e.target.value))}
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              >
-                {GUJARATI_MONTHS.map((month) => (
-                  <option key={month.value} value={month.value}>
-                    {month.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+                >
+                  {GUJARATI_MONTHS.map((month) => (
+                    <option key={month.value} value={month.value}>
+                      {month.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium">Year</label>
+              <div>
+                <label className="mb-2 block text-sm font-medium">Year</label>
 
-              <input
-                type="number"
-                value={form.year}
-                onChange={(e) => updateField("year", Number(e.target.value))}
-                className="
+                <input
+                  type="number"
+                  value={form.year}
+                  onChange={(e) => updateField("year", Number(e.target.value))}
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              />
+                />
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section>
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Travel</h2>
-          </div>
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-bold">Travel</h2>
+            </div>
 
-          <TravelEntryForm onAdd={addTravelEntry} />
+            <TravelEntryForm onAdd={addTravelEntry} />
 
-          <div className="mt-4 space-y-3">
-            {form.travelEntries.map((entry) => (
-              <div
-                key={entry.id}
-                className="
+            <div className="mt-4 space-y-3">
+              {form.travelEntries.map((entry) => (
+                <div
+                  key={entry.id}
+                  className="
                     rounded-2xl border
                     border-slate-200
                     bg-white p-4
                   "
-              >
-                <div className="space-y-2 text-sm">
-                  <p>
-                    {entry.from} → {entry.to}
-                  </p>
+                >
+                  <div className="space-y-2 text-sm">
+                    <p>
+                      {entry.from} → {entry.to}
+                    </p>
 
-                  <p>
-                    {entry.startDate} {entry.startTime}
-                  </p>
+                    <p>
+                      {entry.startDate} {entry.startTime}
+                    </p>
 
-                  <p>
-                    {entry.endDate} {entry.endTime}
-                  </p>
-                </div>
+                    <p>
+                      {entry.endDate} {entry.endTime}
+                    </p>
+                  </div>
 
-                <button
-                  onClick={() => removeTravelEntry(entry.id)}
-                  className="
+                  <button
+                    onClick={() => removeTravelEntry(entry.id)}
+                    className="
                       mt-3 rounded-lg
                       bg-red-50 px-3 py-2
                       text-sm text-red-600
                     "
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <section>
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Leave</h2>
-          </div>
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-bold">Leave</h2>
+            </div>
 
-          <LeaveEntryForm onAdd={addLeaveEntry} />
+            <LeaveEntryForm onAdd={addLeaveEntry} />
 
-          <div className="mt-4 space-y-3">
-            {form.leaveEntries.map((entry, index) => (
-              <div
-                key={entry.id}
-                className="
+            <div className="mt-4 space-y-3">
+              {form.leaveEntries.map((entry, index) => (
+                <div
+                  key={entry.id}
+                  className="
                     rounded-2xl border
                     border-slate-200
                     bg-white p-4
                   "
-              >
-                <div className="space-y-2 text-sm">
-                  <p>#{index + 1}</p>
+                >
+                  <div className="space-y-2 text-sm">
+                    <p>#{index + 1}</p>
 
-                  <p>{entry.date}</p>
+                    <p>{entry.date}</p>
 
-                  <p>{entry.location}</p>
-                </div>
+                    <p>{entry.location}</p>
+                  </div>
 
-                <button
-                  onClick={() => removeLeaveEntry(entry.id)}
-                  className="
+                  <button
+                    onClick={() => removeLeaveEntry(entry.id)}
+                    className="
                       mt-3 rounded-lg
                       bg-red-50 px-3 py-2
                       text-sm text-red-600
                     "
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
 
-      <div
-        className="
+        <div
+          className="
           fixed bottom-0 left-0 right-0
           border-t border-slate-200
           bg-white p-4
         "
-      >
-        <div className="mx-auto flex max-w-md gap-3">
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="
+        >
+          <div className="mx-auto flex max-w-md gap-3">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="
               flex-1 rounded-xl
               bg-teal-700 px-4 py-4
               font-semibold text-white
             "
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
 
-          <button
-            onClick={() => setPreviewMode(true)}
-            className="
+            <button
+              onClick={() => setPreviewMode(true)}
+              className="
               flex-1 rounded-xl
               bg-emerald-100 px-4 py-4
               font-semibold text-teal-800
             "
-          >
-            Preview
-          </button>
+            >
+              Preview
+            </button>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <ImportModal
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onImport={handleImport}
+      />
+    </>
   );
 }

@@ -132,7 +132,7 @@ export default function TravelPage({ diary }) {
               const flex = travelEntries.length <= 3 ? { flex: 1 } : {};
               return (
                 <>
-                  <View style={[styles.innerRow, flex]} key={index}>
+                  <View style={[styles.innerRow, flex]} key={row?.id}>
                     <View
                       style={[
                         {
