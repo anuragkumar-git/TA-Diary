@@ -9,6 +9,7 @@ import ExportModal from "../components/diary/ExportModal";
 
 import { exportDiaryAsJson } from "../lib/exportDiary";
 import { useState } from "react";
+import UserManual from "../components/UserManual";
 
 export default function HomePage({ onOpenDiary }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -115,6 +116,7 @@ export default function HomePage({ onOpenDiary }) {
             )}
           </div>
         </section>
+        <UserManual />
       </main>
 
       <PreferencesDrawer
