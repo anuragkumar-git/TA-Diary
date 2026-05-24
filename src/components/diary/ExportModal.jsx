@@ -4,7 +4,6 @@ export default function ExportModal({ open, onClose, json }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    console.log(open, "from export model")
     if (!open) return;
 
     async function copyJson() {

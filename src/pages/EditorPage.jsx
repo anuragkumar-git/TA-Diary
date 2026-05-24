@@ -20,11 +20,37 @@ export default function EditorPage({ diary, onBack }) {
 
   const [importOpen, setImportOpen] = useState(false);
 
+  const [saveStatus, setSaveStatus] = useState("saved");
+
   const printRef = useRef(null);
+  const hasMounted = useRef(false);
+  const savingRef = useRef(false);
 
   useEffect(() => {
     setForm(diary);
   }, [diary]);
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+
+      return;
+    }
+
+    setSaveStatus("unsaved");
+  }, [form]);
+
+  useEffect(() => {
+    if (saveStatus !== "unsaved") {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      handleSave();
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, [form, saveStatus]);
 
   function updateField(field, value) {
     setForm((prev) => ({
@@ -65,41 +91,54 @@ export default function EditorPage({ diary, onBack }) {
     }));
   }
 
-  async function handleSave() {
+  async function handleSave(updatedForm = form) {
+    if (savingRef.current) {
+      return;
+    }
     try {
-      setSaving(true);
-
+      savingRef.current = true;
+      // setSaving(true);
+      setSaveStatus("saving");
       await db.diaries.update(diary.id, {
-        ...form,
+        ...updatedForm,
 
         updatedAt: new Date().toISOString(),
       });
+      setSaveStatus("saved");
+    } catch (error) {
+      console.error(error);
 
-      alert("Diary saved");
+      setSaveStatus("unsaved");
     } finally {
-      setSaving(false);
+      savingRef.current = false;
     }
   }
 
   async function handleShare() {
-    const blob = await pdf(<PdfDocument diary={form} />).toBlob();
+    try {
+      await handleSave(form);
+      const blob = await pdf(<PdfDocument diary={form} />).toBlob();
 
-    const filename = `T.A.${form.user.badgeNo}-${form.month}${form.year}.pdf`;
+      const filename = `T.A.${form.user.badgeNo}-${form.month}${form.year}.pdf`;
 
-    const file = new File([blob], filename, {
-      type: "application/pdf",
-    });
-
-    if (
-      navigator.canShare?.({
-        files: [file],
-      })
-    ) {
-      await navigator.share({
-        title: "T.A. Diary",
-
-        files: [file],
+      const file = new File([blob], filename, {
+        type: "application/pdf",
       });
+
+      if (
+        navigator.canShare?.({
+          files: [file],
+        })
+      ) {
+        await navigator.share({
+          title: "T.A. Diary",
+
+          files: [file],
+        });
+        onBack();
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -340,7 +379,11 @@ export default function EditorPage({ diary, onBack }) {
               font-semibold text-white
             "
             >
-              {saving ? "Saving..." : "Save"}
+              {saveStatus === "saving"
+                ? "Saving..."
+                : saveStatus === "saved"
+                  ? "Saved"
+                  : "Save"}
             </button>
 
             <button
