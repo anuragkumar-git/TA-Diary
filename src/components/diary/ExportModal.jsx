@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function ExportModal({ open, onClose, json }) {
   const [copied, setCopied] = useState(false);
+  const [exportMessage, setExportMessage] = useState("")
 
   useEffect(() => {
     if (!open) return;
@@ -9,10 +10,12 @@ export default function ExportModal({ open, onClose, json }) {
     async function copyJson() {
       try {
         await navigator.clipboard.writeText(json);
+        setExportMessage("Copied to clipboard.");
 
         setCopied(true);
       } catch {
         setCopied(false);
+        setExportMessage("Copy manually from below.");
       }
     }
 
@@ -22,9 +25,15 @@ export default function ExportModal({ open, onClose, json }) {
   if (!open) return null;
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(json);
-
-    setCopied(true);
+    try {
+      await navigator.clipboard.writeText(json);
+      setExportMessage("Copied to clipboard.");
+      setCopied(true);
+    } catch (error) {
+      setCopied(false);
+      setExportMessage("Copy manually from below.");
+      console.error(error)
+    }
   }
 
   return (
@@ -48,15 +57,14 @@ export default function ExportModal({ open, onClose, json }) {
         "
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">Export Diary</h2>
+           <div>
+                  <h2 className="text-lg font-bold text-slate-900">
+                    Export Diary
+                  </h2>
+                  <p className="text-sm text-slate-500">{exportMessage}</p>
+                </div>
 
-          <button
-            onClick={onClose}
-            className="
-              rounded-lg bg-red-50
-              px-3 py-2 text-red-600
-            "
-          >
+          <button onClick={onClose} className="px-3 text-red-600">
             Close
           </button>
         </div>

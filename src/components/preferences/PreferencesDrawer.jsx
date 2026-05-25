@@ -90,26 +90,29 @@ export default function PreferencesDrawer({
                   border-slate-300 p-3
                 "
               />
-
-              <input
-                value={form.user.role}
-                onChange={(e) => updateField("user", "role", e.target.value)}
-                placeholder="હોદ્દો"
-                className="
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  value={form.user.role}
+                  onChange={(e) => updateField("user", "role", e.target.value)}
+                  placeholder="હોદ્દો"
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              />
+                />
 
-              <input
-                value={form.user.badgeNo}
-                onChange={(e) => updateField("user", "badgeNo", e.target.value)}
-                placeholder="બ. નં."
-                className="
+                <input
+                  value={form.user.badgeNo}
+                  onChange={(e) =>
+                    updateField("user", "badgeNo", e.target.value)
+                  }
+                  placeholder="બ. નં."
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              />
+                />
+              </div>
             </div>
           </section>
 
@@ -129,30 +132,31 @@ export default function PreferencesDrawer({
                   border-slate-300 p-3
                 "
               />
-
-              <input
-                value={form.travelDefaults.mode}
-                onChange={(e) =>
-                  updateField("travelDefaults", "mode", e.target.value)
-                }
-                placeholder="વાહન"
-                className="
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  value={form.travelDefaults.mode}
+                  onChange={(e) =>
+                    updateField("travelDefaults", "mode", e.target.value)
+                  }
+                  placeholder="વાહન"
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              />
+                />
 
-              <input
-                value={form.travelDefaults.distance}
-                onChange={(e) =>
-                  updateField("travelDefaults", "distance", e.target.value)
-                }
-                placeholder="કેટલા માઈલ"
-                className="
+                <input
+                  value={form.travelDefaults.distance}
+                  onChange={(e) =>
+                    updateField("travelDefaults", "distance", e.target.value)
+                  }
+                  placeholder="કેટલા માઈલ"
+                  className="
                   w-full rounded-xl border
                   border-slate-300 p-3
                 "
-              />
+                />
+              </div>
             </div>
           </section>
 

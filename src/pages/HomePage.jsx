@@ -14,6 +14,7 @@ import { db } from "../db/db";
 import ImportModal from "../components/diary/ImportModal";
 import { normalizeImportedDiary } from "../lib/importDiary";
 import { Menu } from "lucide-react";
+import ManualBottomSheet from "../components/ManualBottomSheet";
 
 export default function HomePage({ onOpenDiary, onCreateDiary }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -72,35 +73,28 @@ export default function HomePage({ onOpenDiary, onCreateDiary }) {
 
   return (
     <>
-      <main className="mx-auto max-w-md p-4">
-        <header className="mb-6 flex items-center font-semibold  justify-between">
-          <div className="flex">
-            {/* <button
-              onClick={() => setDrawerOpen(true)}
-              // className="font-bold text-6xl  p-1"
-              className="  p-2 place-items-center rounded-xl bg-white text-2xl text-slate-700 "
-              // className="w-9 place-items-center   text-2xl text-slate-700 "
-              aria-label="Open preferences"
-            >
-              ≡
-            </button> */}
+      <main className="safe-bottom mx-auto max-w-md pt-0.5 px-4 pb-28">
+        <header className="app-header -mx-4 mb-6 px-4 py-2 ">
+          <div className="flex items-center justify-between">
+            <div className="flex">
+              <button
+                onClick={() => setDrawerOpen(true)}
+                className="pb-1"
+                aria-label="Open preferences"
+              >
+                <Menu size={20} />
+              </button>
+
+              <h1 className="text-2xl p-2 font-bold">My Diaries</h1>
+            </div>
+
             <button
-              onClick={() => setDrawerOpen(true)}
-              className="pb-1"
-              aria-label="Open preferences"
+              onClick={() => setImportOpen(true)}
+              className="p-3 font-semibold text-teal-700"
             >
-              <Menu size={20} />
+              Import
             </button>
-
-            <h1 className="text-2xl p-2 font-bold">My Diaries</h1>
           </div>
-
-          <button
-            onClick={() => setImportOpen(true)}
-            className="p-3 font-semibold text-teal-700"
-          >
-            Import
-          </button>
         </header>
 
         <button
@@ -124,11 +118,11 @@ export default function HomePage({ onOpenDiary, onCreateDiary }) {
               <div
                 className="
                   rounded-2xl border border-dashed
-                  border-slate-300 bg-white p-8
-                  text-center text-slate-500
+                  border-slate-300 bg-white p-5
+                  text-sm text-slate-500
                 "
               >
-                No diaries saved yet.
+                No diaries saved yet. Create your first one!
               </div>
             ) : (
               diaries.map((diary) => (
@@ -147,7 +141,7 @@ export default function HomePage({ onOpenDiary, onCreateDiary }) {
             )}
           </div>
         </section>
-        <UserManual />
+        <ManualBottomSheet />
       </main>
 
       <PreferencesDrawer

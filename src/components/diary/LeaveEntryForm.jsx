@@ -29,12 +29,16 @@ export default function LeaveEntryForm({
 
   return (
     <div
-      className="
+      className=" relative mt-4 space-y-3 overflow-hidden
         rounded-2xl border
         border-slate-200 bg-white
         p-4 shadow-sm
       "
     >
+      <div className="absolute left-0 top-0 h-full w-1 bg-teal-600"></div>
+                          <p className="ml-2 text-xs font-bold uppercase text-teal-700">
+                            New Leave Entry
+                          </p>
       <div className="grid grid-cols-2 gap-3">
         <input
           type="date"

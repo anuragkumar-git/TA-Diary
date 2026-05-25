@@ -69,3 +69,17 @@ img {
 .safe-bottom {
   padding-bottom: 110px;
 }
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(0px);
+
+  background: rgba(248, 250, 252, 0.85);
+
+  /* border-bottom: 15px outset
+    rgba(226, 232, 240, 0.8); */
+}

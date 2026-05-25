@@ -2,16 +2,27 @@ const STORAGE_KEY = "taDiaryPreferences";
 
 export const defaultPreferences = {
   user: {
-    name: "નામ",
-    role: "હોદ્દો",
-    badgeNo: "બકલ નંબર",
+    name: "",
+    role: "",
+    badgeNo: "",
   },
 
   travelDefaults: {
-    reason: "ફરજનું કારણ",
-    mode: "ફરજ માટે વપરાયેલ વાહન",
+    reason: "",
+    mode: "",
     distance: "",
   },
+  // user: {
+  //   name: "નામ ",
+  //   role: "હોદ્દો",
+  //   badgeNo: "બકલ નંબર",
+  // },
+
+  // travelDefaults: {
+  //   reason: "મુસાફરીનું કારણ",
+  //   mode: "રેલગાડી થી કે પગ રસ્તે",
+  //   distance: "",
+  // },
 };
 
 export function getPreferences() {

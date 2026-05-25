@@ -43,13 +43,18 @@ export default function ImportModal({ open, onClose, onImport }) {
         "
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">Import Diary</h2>
+          <div>
 
+          <h2 className="text-lg font-bold">Import Diary</h2>
+ <p className="text-sm text-slate-500">
+                  Paste exported diary JSON below.
+                </p>
+          </div>
           <button
             onClick={onClose}
             className="
-              rounded-lg bg-red-50
-              px-3 py-2 text-red-600
+               
+              px-3  text-red-600
             "
           >
             Close
@@ -60,7 +65,7 @@ export default function ImportModal({ open, onClose, onImport }) {
           autoFocus
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Paste diary JSON here..."
+          placeholder='{"month":"05","year":"2026",...}'
           className="
             h-72 w-full rounded-xl
             border border-slate-300
