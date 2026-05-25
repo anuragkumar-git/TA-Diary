@@ -50,7 +50,7 @@ export default function PreferencesDrawer({
         onClick={onClose}
         className="
           fixed inset-0 z-40
-          bg-black/40
+          bg-black/40 backdrop-blur
         "
       />
 
@@ -63,7 +63,7 @@ export default function PreferencesDrawer({
         "
       >
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold">use older Preferences</h2>
+          <h2 className="text-xl font-bold">Preferences</h2>
 
           <button
             onClick={onClose}

@@ -1,24 +1,15 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
-export default function ImportModal({
-  open,
-  onClose,
-  onImport,
-}) {
-  const [text, setText] =
-    useState("");
+export default function ImportModal({ open, onClose, onImport }) {
+  const [text, setText] = useState("");
 
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
   if (!open) return null;
 
   function handleImport() {
     try {
-      const parsed =
-        JSON.parse(text);
+      const parsed = JSON.parse(text);
 
       onImport(parsed);
 
@@ -27,9 +18,7 @@ export default function ImportModal({
 
       onClose();
     } catch {
-      setError(
-        "Invalid JSON. Please paste exported diary data."
-      );
+      setError("Invalid JSON. Please paste exported diary data.");
     }
   }
 
@@ -39,7 +28,7 @@ export default function ImportModal({
         onClick={onClose}
         className="
           fixed inset-0 z-40
-          bg-black/40
+          bg-black/40 backdrop-blur
         "
       />
 
@@ -54,9 +43,7 @@ export default function ImportModal({
         "
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">
-            Import Diary
-          </h2>
+          <h2 className="text-lg font-bold">Import Diary</h2>
 
           <button
             onClick={onClose}
@@ -70,10 +57,9 @@ export default function ImportModal({
         </div>
 
         <textarea
+          autoFocus
           value={text}
-          onChange={(e) =>
-            setText(e.target.value)
-          }
+          onChange={(e) => setText(e.target.value)}
           placeholder="Paste diary JSON here..."
           className="
             h-72 w-full rounded-xl
@@ -82,11 +68,7 @@ export default function ImportModal({
           "
         />
 
-        {error && (
-          <p className="mt-3 text-sm text-red-600">
-            {error}
-          </p>
-        )}
+        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
         <button
           onClick={handleImport}

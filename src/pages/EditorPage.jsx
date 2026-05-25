@@ -8,8 +8,6 @@ import { db } from "../db/db";
 import { GUJARATI_MONTHS } from "../lib/constants";
 import { PDFViewer, pdf } from "@react-pdf/renderer";
 import PdfDocument from "../pdf/PdfDocument";
-import { normalizeImportedDiary } from "../lib/importDiary";
-import ImportModal from "../components/diary/ImportModal";
 
 export default function EditorPage({ diary, onBack }) {
   const [form, setForm] = useState(diary);
@@ -18,17 +16,11 @@ export default function EditorPage({ diary, onBack }) {
 
   const [previewMode, setPreviewMode] = useState(false);
 
-  const [importOpen, setImportOpen] = useState(false);
-
   const [saveStatus, setSaveStatus] = useState("saved");
 
   const printRef = useRef(null);
   const hasMounted = useRef(false);
   const savingRef = useRef(false);
-
-  useEffect(() => {
-    setForm(diary);
-  }, [diary]);
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -142,21 +134,6 @@ export default function EditorPage({ diary, onBack }) {
     }
   }
 
-  async function handleImport(rawData) {
-    try {
-      const normalized = normalizeImportedDiary(rawData);
-
-      const insertedId = await db.diaries.add(normalized);
-
-      const savedDiary = await db.diaries.get(insertedId);
-
-      setForm(savedDiary);
-
-      alert("Diary imported successfully.");
-    } catch (error) {
-      alert(error.message || "Import failed.");
-    }
-  }
   if (previewMode) {
     return (
       <>
@@ -168,6 +145,7 @@ export default function EditorPage({ diary, onBack }) {
         >
           <PDFViewer width="100%" height="100%">
             <PdfDocument diary={form} />
+            {/* jsx based pereview, then pdf document(filter two words from diary prop) hidden but share pdf document. */}
           </PDFViewer>
         </div>
 
@@ -209,26 +187,17 @@ export default function EditorPage({ diary, onBack }) {
   return (
     <>
       <main className="safe-bottom mx-auto max-w-md p-4">
-        <header className="mb-6 flex items-center justify-between">
+        <header className="mb-6 flex items-center justify-between font-bold">
           <button
             onClick={onBack}
-            className="
-            rounded-xl border
-            border-slate-300 bg-white
-            px-4 py-2
-          "
+            className="font-medium text-teal-700 py-2"
           >
-            Back
+          ← Back
           </button>
 
           <h1 className="text-xl font-bold">Editor</h1>
-
-          <button
-            onClick={() => setImportOpen(true)}
-            className="rounded-xl border border-slate- bg-white px-4 py-2"
-          >
-            Import
-          </button>
+          {/* <div className="w-18" /> */}
+          <div className="w-13" />
         </header>
 
         <div className="space-y-6">
@@ -363,20 +332,21 @@ export default function EditorPage({ diary, onBack }) {
         </div>
 
         <div
-          className="
+          className=" mx-auto
           fixed bottom-0 left-0 right-0
-          border-t border-slate-200
-          bg-white p-4
+           shadow-[0_-4px_12px_rgba(15,23,42,0.08)] backdrop-blur-sm
+          bg-white/50 p-4
         "
         >
-          <div className="mx-auto flex max-w-md gap-3">
+          <div className="mx-auto max-w-md  flex gap-3">
             <button
               onClick={handleSave}
               disabled={saving}
               className="
               flex-1 rounded-xl
-              bg-teal-700 px-4 py-4
+              bg-teal-800/75 px-4 py-4
               font-semibold text-white
+              backdrop-blur 
             "
             >
               {saveStatus === "saving"
@@ -390,8 +360,8 @@ export default function EditorPage({ diary, onBack }) {
               onClick={() => setPreviewMode(true)}
               className="
               flex-1 rounded-xl
-              bg-emerald-100 px-4 py-4
-              font-semibold text-teal-800
+              bg-emerald-100/75 px-4 py-4
+              font-semibold backdrop-blur text-teal-800
             "
             >
               Preview
@@ -399,11 +369,6 @@ export default function EditorPage({ diary, onBack }) {
           </div>
         </div>
       </main>
-      <ImportModal
-        open={importOpen}
-        onClose={() => setImportOpen(false)}
-        onImport={handleImport}
-      />
     </>
   );
 }

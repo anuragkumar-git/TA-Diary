@@ -20,6 +20,7 @@ export default function App() {
       ) : (
         <HomePage
           onOpenDiary={setSelectedDiary}
+          onCreateDiary={setSelectedDiary}
         />
       )}
     </div>

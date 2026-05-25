@@ -19,9 +19,12 @@ export function useDiaries() {
   }
 
   async function addDiary(diary) {
-    await db.diaries.add(diary);
+    const id =
+      await db.diaries.add(diary);
+
 
     await loadDiaries();
+    return id;
   }
 
   async function updateDiary(id, diary) {
