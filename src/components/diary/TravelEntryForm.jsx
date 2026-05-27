@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TimeField from "../fields/TimeField";
 
 export default function TravelEntryForm({ onAdd }) {
   const [draft, setDraft] = useState({
@@ -77,7 +78,7 @@ export default function TravelEntryForm({ onAdd }) {
           "
         />
 
-        <input
+        {/* <input
           type="time"
           value={draft.startTime}
           onChange={(e) => updateField("startTime", e.target.value)}
@@ -88,9 +89,16 @@ export default function TravelEntryForm({ onAdd }) {
             rounded-xl border
             border-slate-300 p-3
           "
+        /> */}
+        <TimeField
+          label="Start Time"
+          value={draft.startTime}
+          onChange={(value) =>
+            updateField("startTime", value)
+          }
         />
 
-        <input
+        {/* <input
           type="time"
           value={draft.endTime}
           onChange={(e) => updateField("endTime", e.target.value)}
@@ -101,6 +109,13 @@ export default function TravelEntryForm({ onAdd }) {
             rounded-xl border
             border-slate-300 p-3
           "
+        /> */}
+        <TimeField
+          label="End Time"
+          value={draft.endTime}
+          onChange={(value) =>
+            updateField("endTime", value)
+          }
         />
 
         <input
