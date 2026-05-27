@@ -60,22 +60,24 @@ export default function PreferencesDrawer({
           fixed left-0 top-0 z-50
           h-full w-[90%] max-w-sm
           overflow-y-auto
-          bg-white p-5 shadow-xl
+          bg-white px-5 pb-5 shadow-xl
         "
       >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold">Preferences</h2>
+        <header className="app-header -mx-4 px-4 py-2 backdrop-blur-xs">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-bold">Preferences</h1>
 
-          <button
-            onClick={onClose}
-            className="
-              
+            <button
+              onClick={onClose}
+              className="
+              py-2
                text-red-600
             "
-          >
-            Close
-          </button>
-        </div>
+            >
+              Close
+            </button>
+          </div>
+        </header>
 
         <div className="space-y-6">
           <section>
