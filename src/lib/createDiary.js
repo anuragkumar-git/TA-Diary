@@ -8,6 +8,8 @@ export function createDiary() {
   const preferences = getPreferences();
 
   return {
+    group: preferences.group,
+
     month: now.month() + 1,
     year: now.year(),
 

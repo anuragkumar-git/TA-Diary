@@ -6,8 +6,15 @@ import {
 } from "../../pdf/pdfUtils";
 
 export default function TravelAndLeaveDiary({ dairy }) {
-  const { month, year, user, travelDefaults, travelEntries, leaveEntries } =
-    dairy;
+  const {
+    group,
+    month,
+    year,
+    user,
+    travelDefaults,
+    travelEntries,
+    leaveEntries,
+  } = dairy;
 
   return (
     <>
@@ -126,9 +133,9 @@ export default function TravelAndLeaveDiary({ dairy }) {
         <div className="preview-page-container shadow-md rounded-sm overflow-hidden">
           <div>
             <p>પ્રતિ,</p>
-            <p>સી કંપની કમા. સાહેબ શ્રી,</p>
-            <p>રા. અ. પો. દળ જૂથ ૫,</p>
-            <p>ગોધરા.</p>
+            <p>{group?.companyName} કંપની કમા. સાહેબ શ્રી,</p>
+            <p>રા. અ. પો. દળ જૂથ {toGujaratiDigits(group?.id)},</p>
+            <p>{group?.gujText}.</p>
           </div>
 
           <div className="preview-subject">
@@ -227,9 +234,9 @@ export default function TravelAndLeaveDiary({ dairy }) {
         <div className="mt-4 preview-page-container shadow-md rounded-sm overflow-hidden">
           <div>
             <p>પ્રતિ,</p>
-            <p>સી કંપની કમા. સાહેબ શ્રી,</p>
-            <p>રા. અ. પો. દળ જૂથ ૫,</p>
-            <p>ગોધરા.</p>
+            <p>{group?.companyName} કંપની કમા. સાહેબ શ્રી,</p>
+            <p>રા. અ. પો. દળ જૂથ {toGujaratiDigits(group?.id)},</p>
+            <p>{group?.gujText}.</p>
           </div>
 
           <div className="preview-subject">

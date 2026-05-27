@@ -10,6 +10,7 @@ import { fixGujaratiLigatures } from "../lib/filter";
 export default function LeavePage({ diary }) {
   const safeData = fixGujaratiLigatures(diary);
   const {
+    group,
     month,
     year,
 
@@ -21,9 +22,13 @@ export default function LeavePage({ diary }) {
     <Page size="A4" style={styles.page}>
       <View>
         <Text style={styles.headerText}>પ્રતિ,</Text>
-        <Text style={styles.headerText}>સી કંપની કમા. સાહેબ શ્રી,</Text>
-        <Text style={styles.headerText}>રા. અ. પો. દળ જૂથ ૫,</Text>
-        <Text style={styles.headerText}>ગોધરા.</Text>
+        <Text style={styles.headerText}>
+          {group?.companyName} કંપની કમા. સાહેબ શ્રી,
+        </Text>
+        <Text style={styles.headerText}>
+          રા. અ. પો. દળ જૂથ {toGujaratiDigits(group?.id)},
+        </Text>
+        <Text style={styles.headerText}>{group?.gujText}.</Text>
       </View>
 
       <View style={styles.subject}>

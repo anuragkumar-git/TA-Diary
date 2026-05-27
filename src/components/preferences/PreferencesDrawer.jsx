@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import GroupSelect from "./GroupSelect";
 
 export default function PreferencesDrawer({
   open,
@@ -77,6 +78,34 @@ export default function PreferencesDrawer({
         </div>
 
         <div className="space-y-6">
+          <section>
+            <h3 className="mb-3 font-semibold">Compnay & Group Details</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                type="text"
+                value={form?.group?.companyName}
+                onChange={(e) =>
+                  updateField("group", "companyName", e.target.value)
+                }
+                placeholder="Company Name"
+                className="
+      w-full rounded-2xl
+      border border-slate-300
+      bg-white px-4 py-3
+    "
+              />
+              <GroupSelect
+                value={form.group}
+                onChange={(value) => {
+                  console.log(value);
+                  setForm({
+                    ...form,
+                    group: value,
+                  });
+                }}
+              />
+            </div>
+          </section>
           <section>
             <h3 className="mb-3 font-semibold">User Details</h3>
 

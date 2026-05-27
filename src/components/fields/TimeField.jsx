@@ -23,7 +23,7 @@ export default function TimeField({ label, value, onChange }) {
         }}
         slotProps={{
           textField: {
-            fullWidth: true,
+            // fullWidth: true,
 
             size: "small",
             inputProps: {
