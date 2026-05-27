@@ -8,59 +8,39 @@ import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 
 import TextField from "@mui/material/TextField";
 
-export default function TimeField({
-  label,
-  value,
-  onChange,
-}) {
+export default function TimeField({ label, value, onChange }) {
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDayjs}
-    >
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <MobileTimePicker
         ampm={false}
         label={label}
         format="HH:mm"
-        value={
-          value
-            ? dayjs(
-                `2024-01-01T${value}`
-              )
-            : null
-        }
+        value={value ? dayjs(`2024-01-01T${value}`) : null}
         onChange={(newValue) => {
           if (!newValue) return;
 
-          onChange(
-            newValue.format(
-              "HH:mm"
-            )
-          );
+          onChange(newValue.format("HH:mm"));
         }}
         slotProps={{
           textField: {
             fullWidth: true,
 
             size: "small",
-
+            inputProps: {
+              readOnly: true,
+            },
             sx: {
-              "& .MuiOutlinedInput-root":
-                {
-                  borderRadius:
-                    "50px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "16px",
 
-                  backgroundColor:
-                    "#ffffff",
+                backgroundColor: "#ffffff",
 
-                  fontSize:
-                    "14px",
-                },
+                fontSize: "14px",
+              },
 
-              "& .MuiInputBase-input":
-                {
-                  padding:
-                    "14px 16px",
-                },
+              "& .MuiInputBase-input": {
+                padding: "14px 16px",
+              },
             },
           },
         }}

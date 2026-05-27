@@ -160,7 +160,7 @@ export default function EditorPage({ diary, onBack }) {
           className="
           fixed bottom-0 left-0 right-0 z-50
           border-t border-slate-200
-          bg-white p-4 shadow-lg
+          shadow-[0_-4px_20px_rgba(15,23,42,0.2)] backdrop-blur-xs bg-white/50 p-4
         "
         >
           <div className="mx-auto flex max-w-md gap-3">
@@ -168,8 +168,9 @@ export default function EditorPage({ diary, onBack }) {
               onClick={() => setPreviewMode(false)}
               className="
               flex-1 rounded-xl
-              bg-slate-200 px-4 py-4 font-medium text-slate-700
+              bg-slate-200/75 px-4 py-4 font-medium text-slate-700
               hover:bg-slate-300 transition-colors
+               backdrop-blur
             "
             >
               Back
@@ -179,8 +180,9 @@ export default function EditorPage({ diary, onBack }) {
               onClick={handleShare}
               className="
               flex-1 rounded-xl
-              bg-teal-700 px-4 py-4 font-medium
+              bg-teal-700/75 px-4 py-4 font-medium
               text-white hover:bg-teal-800 transition-colors
+              backdrop-blur 
             "
             >
               Share PDF
@@ -194,7 +196,7 @@ export default function EditorPage({ diary, onBack }) {
   return (
     <>
       <main className="safe-bottom mx-auto max-w-md px-4 pb-4 pt-0.5">
-        <header className="mb-6 app-header -mx-4 px-4 py-2 font-bold">
+        <header className="mb-6 app-header -mx-4 px-4 py-2 font-bold backdrop-blur-xs">
           <div className="flex items-center justify-between">
             <button onClick={onBack} className="font-medium text-teal-700 py-2">
               ← Back

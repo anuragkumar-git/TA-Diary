@@ -73,7 +73,7 @@ export default function HomePage({ onOpenDiary, onCreateDiary }) {
   return (
     <>
       <main className="safe-bottom mx-auto max-w-md pt-0.5 px-4 pb-28">
-        <header className="app-header -mx-4 mb-6 px-4 py-2 ">
+        <header className="app-header -mx-4 mb-6 px-4 py-2 backdrop-blur">
           <div className="flex items-center justify-between">
             <div className="flex">
               <button

@@ -9,7 +9,7 @@ export default function ManualBottomSheet() {
     gu: [
       {
         title: "૧. પ્રથમ Preferences સેટ કરો",
-        desc: "મેનુ માં જઈને નામ, હોદ્દો અને મુસાફરીની ડિફોલ્ટ વિગતો સેટ કરો.",
+        desc: "મેનુ(≡) માં જઈને કંપની નામ, દળ, નામ, હોદ્દો અને મુસાફરીની ડિફોલ્ટ વિગતો સેટ કરો.",
       },
 
       {
@@ -41,7 +41,7 @@ export default function ManualBottomSheet() {
     en: [
       {
         title: "1. Configure Preferences",
-        desc: "Set name, role and default travel details from menu.",
+        desc: "Set company name, group, name, role and default travel details from menu(≡).",
       },
 
       {
