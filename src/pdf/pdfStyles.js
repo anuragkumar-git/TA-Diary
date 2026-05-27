@@ -56,22 +56,54 @@ export const styles = StyleSheet.create({
   // Page 1 Specific Widths
   col1: { width: '16%' },
   col2: { width: '16%' },
-  col34Container: { width: '30%', padding: 0 }, // For the header nesting
+  col34Container: { width: '30%', padding: 0, flexDirection: 'column' }, // For the header nesting
   col3: { width: '15%' }, // In data row
   col4: { width: '15%' }, // In data row
   col5: { width: '14%' },
   col6: { width: '13%' },
   col7: { width: '12%' },
 
+  // Nested Header for Column 3 & 4
+  nestedHeaderTop: {
+    width: '100%',
+    borderBottomWidth: 0.67,
+    borderColor: '#000',
+    padding: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  nestedHeaderBottom: {
+    flexDirection: 'row',
+    width: '100%',
+    flex: 1,
+  },
+  nestedHeaderCellLeft: {
+    width: '50%',
+    borderRightWidth: 0.67,
+    borderColor: '#000',
+    padding: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nestedHeaderCellRight: {
+    width: '50%',
+    padding: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noBorderRight: {
+    borderRightWidth: 0,
+  },
   // Nested RowSpan logic styling
   leftSpanContainer: {
     width: '62%', // 16+16+15+15
     flexDirection: 'column',
   },
-  nestedCol1: { width: '25.8%', borderRightWidth: 0.67 }, // 16 / 62
-  nestedCol2: { width: '25.8%', borderRightWidth: 0.67 }, // 16 / 62
-  nestedCol3: { width: '24.2%', borderRightWidth: 0.67 }, // 15 / 62
-  nestedCol4: { width: '24.2%', borderRightWidth: 0.67 }, // 15 / 62
+  nestedCol1: { width: '25.80%', borderRightWidth: 0.67 }, // 16 / 62
+  nestedCol2: { width: '25.80%', borderRightWidth: 0.67 }, // 16 / 62
+  nestedCol3: { width: '24.19%', borderRightWidth: 0.67 }, // 15 / 62
+  nestedCol4: { width: '24.19%', borderRightWidth: 0.67 }, // 15 / 62
 
   // Page 2 Specific Widths
   p2Col1: { width: '10%' },
@@ -84,6 +116,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     //  flex: 1, //   rows.length <= 3
+  },
+  bodyColFullHeight: {
+    borderRightWidth: 0.67,
+    borderColor: '#000',
+    padding: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 
   footer: {

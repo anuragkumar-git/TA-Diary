@@ -122,13 +122,13 @@ export default function ManualBottomSheet() {
         `}
       >
         {/* Handle */}
-        <div className="flex justify-center py-3">
-          <div
+        <div className="flex justify-center py-2">
+          {/* <div
             className="
               h-1.5 w-16 rounded-full
               bg-slate-300
             "
-          />
+          /> */}
         </div>
 
         {/* Header */}

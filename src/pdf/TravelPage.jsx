@@ -1,8 +1,10 @@
 import { Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { formatGujaratiDate, toGujaratiDigits } from "./pdfUtils";
 import { styles } from "./pdfStyles";
+import { fixGujaratiLigatures } from "../lib/filter";
 
 export default function TravelPage({ diary }) {
+  const safeData = fixGujaratiLigatures(diary);
   const {
     month,
     year,
@@ -12,7 +14,7 @@ export default function TravelPage({ diary }) {
     travelDefaults,
 
     travelEntries,
-  } = diary;
+  } = safeData;
 
   return (
     <Page size="A4" style={styles.page}>
@@ -57,6 +59,8 @@ export default function TravelPage({ diary }) {
                 borderBottomWidth: 0.67,
                 padding: 3,
                 alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
               }}
             >
               <Text>મુસાફરી</Text>
@@ -71,7 +75,7 @@ export default function TravelPage({ diary }) {
                   justifyContent: "center",
                 }}
               >
-                <Text>ક્યાંથી</Text>
+                <Text> ક્યાંથી </Text>
               </View>
               <View
                 style={{
@@ -205,11 +209,7 @@ export default function TravelPage({ diary }) {
 
           {/* Right side span columns */}
           <View style={[styles.tableCol, styles.col5]}>
-            <Text>
-              {travelDefaults?.reason}
-              {/* મા. માજી {"\n"} મંત્રી શ્રી {"\n"}જયદ્રથસિંહ{"\n"} પરમાર {"\n"}
-              સાહેબના {"\n"} અ{"\u200B"}ંગરક્ષક {"\n"} તરીકે ફરજ */}
-            </Text>
+            <Text>{travelDefaults?.reason}</Text>
           </View>
           <View style={[styles.tableCol, styles.col6]}>
             <Text> {travelDefaults?.mode}</Text>

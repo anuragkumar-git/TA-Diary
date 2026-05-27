@@ -9,8 +9,13 @@ import { GUJARATI_MONTHS } from "../lib/constants";
 import { PDFViewer, pdf } from "@react-pdf/renderer";
 import PdfDocument from "../pdf/PdfDocument";
 import { Trash2 } from "lucide-react";
-import { formatGujaratiDate, getGujaratiWeekday, toGujaratiDigits } from "../pdf/pdfUtils";
+import {
+  formatGujaratiDate,
+  getGujaratiWeekday,
+  toGujaratiDigits,
+} from "../pdf/pdfUtils";
 import dayjs from "dayjs";
+import TravelAndLeaveDiary from "../components/diary/TravelAndLeaveDiary";
 
 export default function EditorPage({ diary, onBack }) {
   const [form, setForm] = useState(diary);
@@ -140,24 +145,22 @@ export default function EditorPage({ diary, onBack }) {
   if (previewMode) {
     return (
       <>
-        <div
-          className="
-          fixed inset-0
-          bg-slate-200
-        "
-        >
-          <PDFViewer width="100%" height="100%">
-            <PdfDocument diary={form} />
-            {/* jsx based pereview, then pdf document(filter two words from diary prop) hidden but share pdf document. */}
-          </PDFViewer>
+        {/* Main Preview Container */}
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-slate-200 pb-28 pt-4">
+          <div className="pdf-preview-shell">
+            {/* CRITICAL WRAPPER 2: Applies CSS zoom scaling to fit standard A4 down to mobile viewports */}
+            <div className="pdf-print-area flex flex-col gap-6">
+              <TravelAndLeaveDiary dairy={form} />
+            </div>
+          </div>
         </div>
 
+        {/* Floating Sticky Action Footer */}
         <div
           className="
-          fixed bottom-0 left-0
-          right-0 z-50
+          fixed bottom-0 left-0 right-0 z-50
           border-t border-slate-200
-          bg-white p-4
+          bg-white p-4 shadow-lg
         "
         >
           <div className="mx-auto flex max-w-md gap-3">
@@ -165,7 +168,8 @@ export default function EditorPage({ diary, onBack }) {
               onClick={() => setPreviewMode(false)}
               className="
               flex-1 rounded-xl
-              bg-slate-200 px-4 py-4
+              bg-slate-200 px-4 py-4 font-medium text-slate-700
+              hover:bg-slate-300 transition-colors
             "
             >
               Back
@@ -175,8 +179,8 @@ export default function EditorPage({ diary, onBack }) {
               onClick={handleShare}
               className="
               flex-1 rounded-xl
-              bg-teal-700 px-4 py-4
-              text-white
+              bg-teal-700 px-4 py-4 font-medium
+              text-white hover:bg-teal-800 transition-colors
             "
             >
               Share PDF
@@ -296,7 +300,9 @@ export default function EditorPage({ diary, onBack }) {
                         >
                           {/* <span>📅</span> */}
 
-                          <span className="text-base">{formatGujaratiDate(entry?.startDate)}</span>
+                          <span className="text-base">
+                            {formatGujaratiDate(entry?.startDate)}
+                          </span>
                         </p>
                         {entry?.startTime && (
                           <p
@@ -307,7 +313,9 @@ export default function EditorPage({ diary, onBack }) {
                           >
                             {/* <span>🕒</span> */}
 
-                            <span className="text-base">{toGujaratiDigits(entry?.startTime)}</span>
+                            <span className="text-base">
+                              {toGujaratiDigits(entry?.startTime)}
+                            </span>
                           </p>
                         )}
                       </div>
@@ -322,7 +330,9 @@ export default function EditorPage({ diary, onBack }) {
                         >
                           {/* <span>📅</span> */}
 
-                          <span className="text-base">{formatGujaratiDate(entry?.endDate)}</span>
+                          <span className="text-base">
+                            {formatGujaratiDate(entry?.endDate)}
+                          </span>
                         </p>
                         {entry?.endTime && (
                           <p
@@ -333,7 +343,9 @@ export default function EditorPage({ diary, onBack }) {
                           >
                             {/* <span>🕒</span> */}
 
-                            <span className="text-base">{toGujaratiDigits(entry.endTime)}</span>
+                            <span className="text-base">
+                              {toGujaratiDigits(entry.endTime)}
+                            </span>
                           </p>
                         )}
                       </div>
@@ -401,7 +413,6 @@ export default function EditorPage({ diary, onBack }) {
 
                     {/* Content */}
                     <div className="min-w-0 flex-1">
-                    
                       {/* Date + Weekday */}
                       <div
                         className="
@@ -411,8 +422,12 @@ export default function EditorPage({ diary, onBack }) {
                 text-slate-600
               "
                       >
-                        <span className="text-base">{dayjs(entry.date).format("DD MMM YYYY")},</span>
-                        <span className="text-base">{getGujaratiWeekday(entry.date)}</span>
+                        <span className="text-base">
+                          {dayjs(entry.date).format("DD MMM YYYY")},
+                        </span>
+                        <span className="text-base">
+                          {getGujaratiWeekday(entry.date)}
+                        </span>
                         {/* Location */}
                         <p
                           className="ml-1

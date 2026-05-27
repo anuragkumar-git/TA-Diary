@@ -1,8 +1,14 @@
 import { Page, View, Text } from "@react-pdf/renderer";
-import { formatGujaratiDate, getGujaratiWeekday, toGujaratiDigits } from "./pdfUtils";
+import {
+  formatGujaratiDate,
+  getGujaratiWeekday,
+  toGujaratiDigits,
+} from "./pdfUtils";
 import { styles } from "./pdfStyles";
+import { fixGujaratiLigatures } from "../lib/filter";
 
 export default function LeavePage({ diary }) {
+  const safeData = fixGujaratiLigatures(diary);
   const {
     month,
     year,
@@ -10,7 +16,7 @@ export default function LeavePage({ diary }) {
     user,
 
     leaveEntries,
-  } = diary;
+  } = safeData;
   return (
     <Page size="A4" style={styles.page}>
       <View>

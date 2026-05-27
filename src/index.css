@@ -83,3 +83,10 @@ img {
   /* border-bottom: 15px outset
     rgba(226, 232, 240, 0.8); */
 }
+
+.pdf-preview-shell {
+  --preview-scale: min(1, calc((100vw - 32px) / 794px));
+}
+.pdf-preview-shell .pdf-print-area {
+  zoom: var(--preview-scale);
+}

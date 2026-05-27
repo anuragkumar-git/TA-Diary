@@ -9,7 +9,6 @@ import ExportModal from "../components/diary/ExportModal";
 
 import { exportDiaryAsJson } from "../lib/exportDiary";
 import { useState } from "react";
-import UserManual from "../components/UserManual";
 import { db } from "../db/db";
 import ImportModal from "../components/diary/ImportModal";
 import { normalizeImportedDiary } from "../lib/importDiary";
