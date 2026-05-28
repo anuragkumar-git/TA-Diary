@@ -7,6 +7,7 @@ import {
 
 export default function TravelAndLeaveDiary({ dairy }) {
   const {
+    companyName,
     group,
     month,
     year,
@@ -133,7 +134,7 @@ export default function TravelAndLeaveDiary({ dairy }) {
         <div className="preview-page-container shadow-md rounded-sm overflow-hidden">
           <div>
             <p>પ્રતિ,</p>
-            <p>{group?.companyName} કંપની કમા. સાહેબ શ્રી,</p>
+            <p>{companyName} કંપની કમા. સાહેબ શ્રી,</p>
             <p>રા. અ. પો. દળ જૂથ {toGujaratiDigits(group?.id)},</p>
             <p>{group?.gujText}.</p>
           </div>
@@ -234,7 +235,7 @@ export default function TravelAndLeaveDiary({ dairy }) {
         <div className="mt-4 preview-page-container shadow-md rounded-sm overflow-hidden">
           <div>
             <p>પ્રતિ,</p>
-            <p>{group?.companyName} કંપની કમા. સાહેબ શ્રી,</p>
+            <p>{companyName} કંપની કમા. સાહેબ શ્રી,</p>
             <p>રા. અ. પો. દળ જૂથ {toGujaratiDigits(group?.id)},</p>
             <p>{group?.gujText}.</p>
           </div>

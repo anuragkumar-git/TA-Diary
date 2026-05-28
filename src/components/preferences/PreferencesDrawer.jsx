@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import GroupSelect from "./GroupSelect";
+import { Share2 } from "lucide-react";
 
 export default function PreferencesDrawer({
   open,
@@ -26,6 +27,17 @@ export default function PreferencesDrawer({
     }));
   }
 
+  /**
+   * New Helper: Updates top-level fields directly on the form object
+   * Used for properties like 'companyName' that don't belong to a sub-section
+   */
+  function updateTopLevelField(field, value) {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }
+
   function handleSave() {
     onSave(form);
 
@@ -37,7 +49,7 @@ export default function PreferencesDrawer({
       await navigator.share({
         title: "T.A. Diary",
 
-        text: "T.A. Diary App",
+        text: "A Travel Allowance diary generator PWA with PDF preview and WhatsApp sharing.",
 
         url: window.location.href,
       });
@@ -45,34 +57,37 @@ export default function PreferencesDrawer({
       console.error(error);
     }
   }
+
   return (
     <>
       <div
         onClick={onClose}
         className="
           fixed inset-0 z-40
-          bg-black/40 backdrop-blur
+          bg-black/40 backdrop-blur-md
         "
       />
 
       <aside
-        className="
+        className={`
           fixed left-0 top-0 z-50
           h-full w-[90%] max-w-sm
           overflow-y-auto
-          bg-white px-5 pb-5 shadow-xl
-        "
+          bg-white px-5 pb-5 
+          transition-transform duration-300
+          
+
+          ${open ? "translate-x-0" : "translate-x-full"}
+        `}
       >
-        <header className="app-header -mx-4 px-4 py-2 backdrop-blur-xs">
+        <header className="app-header -mx-5 px-4 py-2 backdrop-blur-xs mb-3 mt-1 shadow-[0_4px_15px_rgba(15,23,42,0.2)] ">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">Preferences</h1>
 
             <button
               onClick={onClose}
               className="
-              py-2
-               text-red-600
-            "
+              py-2 text-red-600"
             >
               Close
             </button>
@@ -82,12 +97,12 @@ export default function PreferencesDrawer({
         <div className="space-y-6">
           <section>
             <h3 className="mb-3 font-semibold">Compnay & Group Details</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <input
                 type="text"
-                value={form?.group?.companyName}
+                value={form?.companyName || ""}
                 onChange={(e) =>
-                  updateField("group", "companyName", e.target.value)
+                  updateTopLevelField("companyName", e.target.value)
                 }
                 placeholder="Company Name"
                 className="
@@ -96,16 +111,18 @@ export default function PreferencesDrawer({
       bg-white px-4 py-3
     "
               />
-              <GroupSelect
-                value={form.group}
-                onChange={(value) => {
-                  console.log(value);
-                  setForm({
-                    ...form,
-                    group: value,
-                  });
-                }}
-              />
+              <div className="col-span-2">
+                <GroupSelect
+                  value={form?.group}
+                  onChange={(value) => {
+                    console.log(value);
+                    setForm({
+                      ...form,
+                      group: value,
+                    });
+                  }}
+                />
+              </div>
             </div>
           </section>
           <section>
@@ -113,7 +130,7 @@ export default function PreferencesDrawer({
 
             <div className="space-y-3">
               <input
-                value={form.user.name}
+                value={form?.user?.name}
                 onChange={(e) => updateField("user", "name", e.target.value)}
                 placeholder="નામ"
                 className="
@@ -123,7 +140,7 @@ export default function PreferencesDrawer({
               />
               <div className="grid grid-cols-2 gap-3">
                 <input
-                  value={form.user.role}
+                  value={form?.user?.role}
                   onChange={(e) => updateField("user", "role", e.target.value)}
                   placeholder="હોદ્દો"
                   className="
@@ -133,7 +150,7 @@ export default function PreferencesDrawer({
                 />
 
                 <input
-                  value={form.user.badgeNo}
+                  value={form?.user?.badgeNo}
                   onChange={(e) =>
                     updateField("user", "badgeNo", e.target.value)
                   }
@@ -152,7 +169,7 @@ export default function PreferencesDrawer({
 
             <div className="space-y-3">
               <textarea
-                value={form.travelDefaults.reason}
+                value={form?.travelDefaults?.reason}
                 onChange={(e) =>
                   updateField("travelDefaults", "reason", e.target.value)
                 }
@@ -163,9 +180,9 @@ export default function PreferencesDrawer({
                   border-slate-300 p-3
                 "
               />
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <input
-                  value={form.travelDefaults.mode}
+                  value={form?.travelDefaults?.mode}
                   onChange={(e) =>
                     updateField("travelDefaults", "mode", e.target.value)
                   }
@@ -173,11 +190,12 @@ export default function PreferencesDrawer({
                   className="
                   w-full rounded-xl border
                   border-slate-300 p-3
+                  col-span-2
                 "
                 />
 
                 <input
-                  value={form.travelDefaults.distance}
+                  value={form?.travelDefaults?.distance}
                   onChange={(e) =>
                     updateField("travelDefaults", "distance", e.target.value)
                   }
@@ -203,13 +221,10 @@ export default function PreferencesDrawer({
           </button>
           <button
             onClick={handleShareApp}
-            className="
-    w-full rounded-xl
-    bg-emerald-100 px-4 py-4
-    font-semibold text-teal-800
-  "
+            className="flex flex-1 items-center justify-center gap-2 w-full rounded-xl bg-emerald-100 px-4 py-4 font-semibold text-teal-800 "
           >
-            Share App
+            <Share2 size={20} />
+            <span>Share App</span>
           </button>
         </div>
       </aside>

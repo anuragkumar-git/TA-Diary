@@ -8,7 +8,7 @@ import { db } from "../db/db";
 import { GUJARATI_MONTHS } from "../lib/constants";
 import { PDFViewer, pdf } from "@react-pdf/renderer";
 import PdfDocument from "../pdf/PdfDocument";
-import { Trash2 } from "lucide-react";
+import { Share2, Trash2 } from "lucide-react";
 import {
   formatGujaratiDate,
   getGujaratiWeekday,
@@ -178,14 +178,10 @@ export default function EditorPage({ diary, onBack }) {
 
             <button
               onClick={handleShare}
-              className="
-              flex-1 rounded-xl
-              bg-teal-700/75 px-4 py-4 font-medium
-              text-white hover:bg-teal-800 transition-colors
-              backdrop-blur 
-            "
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-teal-700/75 px-4 py-4 font-medium text-white transition-colors hover:bg-teal-800 backdrop-blur"
             >
-              Share PDF
+              <Share2 size={20} />
+              <span>Share PDF</span>
             </button>
           </div>
         </div>
@@ -467,7 +463,7 @@ export default function EditorPage({ diary, onBack }) {
           </section>
         </div>
 
-        <div className=" mx-auto fixed bottom-0 left-0 right-0 shadow-[0_-4px_20px_rgba(15,23,42,0.2)] backdrop-blur-sm bg-white/75 p-4">
+        <div className="z-30 mx-auto fixed bottom-0 left-0 right-0 shadow-[0_-4px_20px_rgba(15,23,42,0.2)] backdrop-blur-sm bg-white/75 p-4">
           <div className="mx-auto max-w-md  flex gap-3">
             <button
               onClick={handleSave}

@@ -80,7 +80,7 @@ export default function ManualBottomSheet() {
           z-40 border-t border-slate-200
           bg-white/60
           px-4 py-3
-          backdrop-blur 
+          backdrop-blur-md 
         "
       >
         <div className=" max-w-md mx-auto">
@@ -103,7 +103,7 @@ export default function ManualBottomSheet() {
           onClick={() => setOpen(false)}
           className="
             fixed inset-0 z-50
-            bg-black/40 backdrop-blur
+            bg-black/40 backdrop-blur-md
           "
         />
       )}

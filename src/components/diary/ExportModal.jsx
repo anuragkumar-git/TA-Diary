@@ -42,7 +42,7 @@ export default function ExportModal({ open, onClose, json }) {
         onClick={onClose}
         className="
           fixed inset-0 z-40
-          bg-black/40 backdrop-blur
+          bg-black/40 backdrop-blur-md
         "
       />
 
